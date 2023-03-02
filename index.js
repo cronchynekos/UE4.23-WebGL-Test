@@ -1,4 +1,5 @@
 import * as THREE from 'https://unpkg.com/three@0.150.0/build/three.module.js';
+// import {OrbitControls} from 'https://unpkg.com/three@0.150.0/examples/jsm/controls/OrbitControls.js';
 import dat from "https://cdn.skypack.dev/dat.gui";
 
 const gui = new dat.GUI()
@@ -41,6 +42,7 @@ renderer.setSize(innerWidth, innerHeight)
 renderer.setPixelRatio(devicePixelRatio) //set dpi to device specs
 document.body.appendChild(renderer.domElement)
 
+// new OrbitControls(camera, renderer.domElement)
 camera.position.z = 5
 
 const planeGeometry = new THREE.PlaneGeometry(10, 10, 10, 10)
