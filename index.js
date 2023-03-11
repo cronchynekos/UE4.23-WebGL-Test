@@ -1,19 +1,16 @@
 
-// import "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js";
 import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 import {OrbitControls} from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
 import dat from "https://cdn.skypack.dev/dat.gui";
-
-console.log(gsap)
 
 //datgui setup
 const gui = new dat.GUI()
 const world = {
     plane: {
-        width: 10,
-        height: 10,
-        widthSegments: 10,
-        heightSegments: 10
+        width: 19,
+        height: 19,
+        widthSegments: 17,
+        heightSegments: 17
     }
 }
 gui.add(world.plane, 'width', 1, 20).onChange(generatePlane)
@@ -37,6 +34,14 @@ function generatePlane() {
         const z = array[i + 2]
         array[i + 2] = z + Math.random()
     }
+
+    const colors = []
+    for (let i = 0; i < planeMesh.geometry.attributes.position.count; i++) {
+        colors.push(0, 0.19, 0.4)
+    }
+
+    planeMesh.geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3))
+
 }
 
 //scene setup
@@ -52,7 +57,12 @@ new OrbitControls(camera, renderer.domElement)
 camera.position.z = 5
 
 //material setup
-const planeGeometry = new THREE.PlaneGeometry(10, 10, 10, 10)
+const planeGeometry = new THREE.PlaneGeometry(
+    world.plane.width, 
+    world.plane.height, 
+    world.plane.widthSegments, 
+    world.plane.heightSegments
+    )
 const planeMaterial = new THREE.
     MeshPhongMaterial({
     side: THREE.DoubleSide,
