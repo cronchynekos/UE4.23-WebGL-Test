@@ -78,6 +78,8 @@ for (let i = 0; i < array.length; i += 3) {
     const x = array[i]
     const y = array[i + 1]
     const z = array[i + 2]
+    array[i] = x + (Math.random() - 0.5)
+    array[i + 1] = y + (Math.random() - 0.5)
     array[i + 2] = z + Math.random()
 }
 
