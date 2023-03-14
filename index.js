@@ -74,6 +74,7 @@ scene.add(planeMesh)
 
 //geometry gradient
 const {array} = planeMesh.geometry.attributes.position
+const randomValues = [] //for random vertice movement
 for (let i = 0; i < array.length; i += 3) {
     const x = array[i]
     const y = array[i + 1]
@@ -81,7 +82,16 @@ for (let i = 0; i < array.length; i += 3) {
     array[i] = x + (Math.random() - 0.5)
     array[i + 1] = y + (Math.random() - 0.5)
     array[i + 2] = z + Math.random()
+
+    randomValues.push(Math.random())
 }
+
+planeMesh.geometry.attributes.position.randomValues = randomValues
+
+planeMesh.geometry.attributes.position.originalPosition = 
+    planeMesh.geometry.attributes.position.array
+
+console.log(planeMesh.geometry.attributes.position)
 
 //initial color
 const colors = []
@@ -106,11 +116,26 @@ const mouse = {
     y: undefined
 }
 
+
+let frame = 0
+
 //animate
 function animate() {
     requestAnimationFrame(animate)
+    frame += 0.01
     renderer.render(scene, camera)
     raycaster.setFromCamera(mouse, camera)
+
+    const { array, originalPosition } = planeMesh.geometry.attributes.position
+    for (let i = 0; i < array.length; i+=3) {
+        array[i] = originalPosition[i] + Math.cos(frame) * 0.01
+
+    }
+
+    planeMesh.geometry.attributes.position.needsUpdate = true
+
+
+
     const intersects = raycaster.intersectObject(planeMesh)
     if (intersects.length > 0) {
 
